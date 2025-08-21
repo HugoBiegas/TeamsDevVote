@@ -252,7 +252,7 @@ task("vote", "Vote pour un candidat avec sélection de compte")
     } catch (error) {
       console.log("\n❌ ERREUR SYSTÈME:", error.message);
       console.log("🔧 Diagnostic recommandé:");
-      console.log("   docker-compose run --rm hardhat-dev npx hardhat verify-contract --contract", contractAddress);
+      console.log("   docker-compose run --rm hardhat-dev npx hardhat verify-contract --network docker  --contract", contractAddress);
     }
   });
 
@@ -667,8 +667,8 @@ task("voting-help", "Guide complet des commandes de vote")
     console.log("─".repeat(30));
     console.log("   docker-compose run --rm hardhat-dev npx hardhat accounts");
     console.log("   docker-compose run --rm hardhat-dev npx hardhat diagnostic");
-    console.log("   docker-compose run --rm hardhat-dev npx hardhat verify-contract --contract ADRESSE");
-    console.log("   docker-compose run --rm hardhat-dev npx hardhat check-vote --contract ADRESSE --address ADRESSE_ELECTEUR");
+    console.log("   docker-compose run --rm hardhat-dev npx hardhat verify-contract --contract ADRESSE --network docker");
+    console.log("   docker-compose run --rm hardhat-dev npx hardhat check-vote --contract ADRESSE --address ADRESSE_ELECTEUR --network docker");
     
     console.log("\n💡 EXEMPLE COMPLET - ÉLECTION AVEC 4 ÉLECTEURS");
     console.log("═".repeat(55));

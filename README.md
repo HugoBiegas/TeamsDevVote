@@ -17,6 +17,22 @@
 
 ## 🚀 Démarrage Rapide
 
+### Commandes d'aide
+```bash
+# Afficher les commandes disponibles
+docker-compose run --rm hardhat-dev npx hardhat voting-help
+
+# Afficher les comptes électeurs
+docker-compose run --rm hardhat-dev npx hardhat accounts
+
+# verifier un contrat spécifique
+docker-compose run --rm hardhat-dev npx hardhat verify-contract --contract ADRESSE --network docker
+
+# voir le vote d'un électeur
+docker-compose run --rm hardhat-dev npx hardhat check-vote --contract ADRESSE --address ADRESSE_ELECTEUR --network docker
+
+```
+
 ### Installation et Lancement (3 commandes)
 ```bash
 # 1. Démarrer le nœud blockchain

@@ -364,3 +364,5 @@ lerna-debug.log
 *.mp3
 *.wav
 *.ogg
+
+artifacts
