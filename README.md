@@ -206,7 +206,7 @@ docker-compose run --rm hardhat-dev npx hardhat accounts
 ### Vérification des Électeurs
 ```bash
 # Vérifier si une adresse a déjà voté
-docker-compose run --rm hardhat-dev npx hardhat check-vote --contract CONTRACT_ADDRESS --address VOTER_ADDRESS
+docker-compose run --rm hardhat-dev npx hardhat check-vote --contract CONTRACT_ADDRESS --address VOTER_ADDRESS --network docker
 
 # Exemple de sortie :
 # 🔍 VÉRIFICATION DU STATUT ÉLECTEUR
@@ -235,7 +235,7 @@ docker-compose run --rm hardhat-dev npx hardhat coverage
 ### Tests de Performance
 ```bash
 # Simulation de charge (50 votes)
-docker-compose run --rm hardhat-dev npx hardhat simulate --votes 50
+docker-compose run --rm hardhat-dev npx hardhat simulate --votes 50 --network docker
 
 # Test de montée en charge avec logs détaillés
 docker-compose logs -f hardhat-dev
