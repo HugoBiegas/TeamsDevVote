@@ -1,7 +1,20 @@
-Frank Demirci 
-Alexandre Berkani 
-Yanis Ghoul 
-Naier Abbassi 
-Yann Izeglouche
-hugo biegas
-Antoine Cage
+Frank Demirci :
+    mise en place du README.md et aide des mise en place de la stylisation des messages de la console dans le fichier hardhat.config.js
+
+Alexandre Berkani :
+    mise en place du README.md et aide des mise en place de la stylisation des messages de la console dans le fichier hardhat.config.js
+
+Yanis Ghoul :
+    mise en place de la logique du hardhat.config.js
+
+Naier Abbassi :
+    mise en place du contract Voting.sol
+
+Yann Izeglouche : 
+    mise en place des différents tests
+
+hugo biegas :
+    mise en place du docker-compose.yml et du dockerfile
+
+Antoine Cage :
+    mise en place de styliser les messages de la console dans le fichier hardhat.config.js
