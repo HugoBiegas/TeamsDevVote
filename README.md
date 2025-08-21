@@ -10,6 +10,7 @@
 **Une DApp de vote sécurisée et transparente construite avec Hardhat + Solidity**
 
 *Démocratie numérique • Sécurité blockchain • Open Source*
+
 Hugo Biegas - Naier Abbassi - Yanis Ghoul - Alexandre Berkani - Yann Izeglouche - Frank Demirci - Antoine Cage
 
 </div>
