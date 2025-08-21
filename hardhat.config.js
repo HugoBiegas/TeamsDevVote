@@ -55,7 +55,7 @@ module.exports = {
       timeout: 60000,
     },
     
-    // Configuration pour les réseaux externes (à personnaliser)
+    // Configuration pour les réseaux externes
     sepolia: {
       url: process.env.SEPOLIA_URL || "",
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
@@ -84,13 +84,13 @@ module.exports = {
     timeout: 60000,
   },
   
-  // Configuration du gas reporter (optionnel)
+  // Configuration du gas reporter
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
   },
   
-  // Configuration de Etherscan (pour la vérification)
+  // Configuration de Etherscan
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY || "",
@@ -412,7 +412,7 @@ task("deploy-voting", "Déploie un contrat de vote")
       });
       
       console.log("\n📊 Pour voir les résultats :");
-      console.log(`   docker-compose run --rm hardhat-dev npx hardhat results --contract ${address}`);
+      console.log(`   docker-compose run --rm hardhat-dev npx hardhat results --contract --network docker ${address}`);
       
       return address;
     } catch (error) {
@@ -546,12 +546,12 @@ task("voting-help", "Affiche l'aide pour les commandes de vote")
     console.log("   docker-compose run --rm hardhat-dev npx hardhat deploy-voting --candidates 'Jean,Marie,Pierre'");
     console.log("");
     console.log("🗳️  VOTER (utilisez l'adresse retournée par deploy-voting):");
-    console.log("   docker-compose run --rm hardhat-dev npx hardhat vote --candidate 0 --contract ADRESSE  # Premier candidat");
-    console.log("   docker-compose run --rm hardhat-dev npx hardhat vote --candidate 1 --contract ADRESSE  # Deuxième candidat");
-    console.log("   docker-compose run --rm hardhat-dev npx hardhat vote --candidate 2 --contract ADRESSE  # Troisième candidat");
+    console.log("   docker-compose run --rm hardhat-dev npx hardhat vote --candidate 0 --contract ADRESSE  --network docker # Premier candidat");
+    console.log("   docker-compose run --rm hardhat-dev npx hardhat vote --candidate 1 --contract ADRESSE --network docker # Deuxième candidat");
+    console.log("   docker-compose run --rm hardhat-dev npx hardhat vote --candidate 2 --contract ADRESSE  --network docker # Troisième candidat");
     console.log("");
     console.log("📊 RÉSULTATS:");
-    console.log("   docker-compose run --rm hardhat-dev npx hardhat results --contract ADRESSE");
+    console.log("   docker-compose run --rm hardhat-dev npx hardhat results --contract ADRESSE --network docker");
     console.log("");
     console.log("🧪 SIMULATION COMPLÈTE:");
     console.log("   docker-compose run --rm hardhat-dev npx hardhat simulate");
