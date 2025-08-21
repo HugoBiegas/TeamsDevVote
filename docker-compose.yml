@@ -1,0 +1,138 @@
+services:
+  # Service principal Hardhat pour le développement
+  hardhat-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    container_name: voting-hardhat-dev
+    ports:
+      - "8545:8545"  # Port RPC Hardhat
+      - "8546:8546"  # Port WebSocket (optionnel)
+    volumes:
+      - .:/app:cached
+      - node_modules:/app/node_modules
+      - hardhat_cache:/app/cache
+      - hardhat_artifacts:/app/artifacts
+    environment:
+      - NODE_ENV=development
+    networks:
+      - blockchain-network
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo 'Compilation des contrats...' &&
+        npx hardhat compile &&
+        echo 'Démarrage du nœud Hardhat...' &&
+        npx hardhat node --hostname 0.0.0.0 --port 8545
+      "
+
+  # Service pour les tests
+  hardhat-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    container_name: voting-hardhat-test
+    volumes:
+      - .:/app:cached
+      - node_modules:/app/node_modules
+      - hardhat_cache:/app/cache
+      - hardhat_artifacts:/app/artifacts
+    environment:
+      - NODE_ENV=test
+    networks:
+      - blockchain-network
+    profiles:
+      - test
+    command: npx hardhat test
+
+  # Service Ganache pour un environnement de test alternatif (optionnel)
+  ganache:
+    image: trufflesuite/ganache:latest
+    container_name: voting-ganache
+    ports:
+      - "7545:8545"
+    environment:
+      - GANACHE_ACCOUNTS=10
+      - GANACHE_DETERMINISTIC=true
+      - GANACHE_MNEMONIC=test test test test test test test test test test test junk
+      - GANACHE_NETWORK_ID=1337
+      - GANACHE_GAS_LIMIT=0x1fffffffffffff
+      - GANACHE_GAS_PRICE=0x01
+    networks:
+      - blockchain-network
+    profiles:
+      - ganache
+    restart: unless-stopped
+
+  # Service pour le déploiement des contrats
+  hardhat-deploy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    container_name: voting-hardhat-deploy
+    volumes:
+      - .:/app:cached
+      - node_modules:/app/node_modules
+      - hardhat_cache:/app/cache
+      - hardhat_artifacts:/app/artifacts
+    environment:
+      - NODE_ENV=development
+      - HARDHAT_NETWORK=docker
+    networks:
+      - blockchain-network
+    profiles:
+      - deploy
+    depends_on:
+      - hardhat-dev
+    command: >
+      sh -c "
+        echo 'Attente du nœud Hardhat...' &&
+        sleep 10 &&
+        echo 'Déploiement des contrats...' &&
+        npx hardhat run scripts/deploy.js --network docker
+      "
+
+  # Service pour la production
+  hardhat-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    container_name: voting-hardhat-prod
+    ports:
+      - "8545:8545"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - blockchain-network
+    profiles:
+      - production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+# Volumes persistants pour optimiser les builds
+volumes:
+  node_modules:
+    driver: local
+  hardhat_cache:
+    driver: local
+  hardhat_artifacts:
+    driver: local
+
+# Réseau isolé pour la blockchain
+networks:
+  blockchain-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
